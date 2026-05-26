@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Son of Mango Founder Steps Down</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --accent: #c0392b; --accent2: #e67e22;
+    --bg: #0e0e0e; --bg2: #161616; --bg3: #1e1e1e;
+    --border: rgba(255,255,255,0.08); --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8; --text-muted: #888; --text-dim: #555;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  body { font-family: 'Georgia','Times New Roman',serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg,var(--accent),var(--accent2)); z-index: 200; transition: width 0.4s ease; width: 20%; }
+  .score-pill { position: fixed; top: 16px; right: 16px; background: var(--bg3); border: 1px solid var(--border); border-radius: 99px; padding: 6px 14px; font-family: 'Courier New',monospace; font-size: 13px; z-index: 200; display: flex; align-items: center; gap: 8px; }
+  .score-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .container { max-width: 760px; margin: 0 auto; padding: 60px 20px 80px; }
+  .phase { display: none; }
+  .phase.active { display: block; animation: fadeUp 0.5s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .lesson-header { margin-bottom: 2.5rem; }
+  .lesson-eyebrow { font-family:'Courier New',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem; }
+  .lesson-header h1 { font-size:clamp(1.6rem,4vw,2.4rem); font-weight:normal; line-height:1.2; color:var(--text); margin-bottom:0.75rem; }
+  .lesson-header p { font-size:1rem; color:var(--text-muted); font-style:italic; line-height:1.6; }
+  .card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.75rem; margin-bottom:1.25rem; }
+  .card-title { font-family:'Courier New',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:1.25rem; }
+  .survey-q { margin-bottom:1.75rem; }
+  .survey-q:last-child { margin-bottom:0; }
+  .survey-q-text { font-size:0.95rem; color:var(--text); margin-bottom:0.9rem; line-height:1.5; }
+  .options-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; }
+  .opt { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; transition:all 0.2s; font-size:0.875rem; color:var(--text-muted); background:var(--bg3); user-select:none; }
+  .opt:hover { border-color:var(--border-hover); color:var(--text); }
+  .opt input { display:none; }
+  .opt .radio-circle { width:16px; height:16px; border-radius:50%; border:1.5px solid var(--text-dim); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+  .opt:has(input:checked) { border-color:var(--accent); background:rgba(192,57,43,0.08); color:var(--text); }
+  .opt:has(input:checked) .radio-circle { background:var(--accent); border-color:var(--accent); }
+  .opt:has(input:checked) .radio-circle::after { content:''; width:6px; height:6px; border-radius:50%; background:white; }
+  .btn { display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:white; border:none; padding:12px 24px; border-radius:var(--radius-sm); font-size:0.9rem; font-family:'Courier New',monospace; letter-spacing:0.05em; cursor:pointer; transition:all 0.2s; margin-top:1.5rem; }
+  .btn:hover { background:#a93226; transform:translateY(-1px); }
+  .btn-ghost { background:transparent; border:1px solid var(--border-hover); color:var(--text-muted); }
+  .btn-ghost:hover { background:var(--bg3); color:var(--text); }
+  .reading-intro { font-size:0.85rem; color:var(--text-dim); font-family:'Courier New',monospace; letter-spacing:0.05em; margin-bottom:1.5rem; }
+  .para { font-size:1rem; line-height:1.85; color:#ccc; padding:1.25rem 1.5rem; border-left:2px solid var(--border); margin-bottom:1rem; border-radius:0 var(--radius-sm) var(--radius-sm) 0; background:var(--bg2); cursor:default; transition:all 0.2s; }
+  .para:hover { border-left-color:var(--accent2); background:var(--bg3); color:var(--text); }
+  .vw { background:rgba(230,126,34,0.15); color:var(--accent2); border-bottom:1px dashed var(--accent2); padding:1px 3px; border-radius:3px; cursor:pointer; position:relative; white-space:nowrap; transition:background 0.15s; }
+  .vw:hover { background:rgba(230,126,34,0.28); }
+  .vw::after { content:attr(data-def); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#1a1a1a; border:1px solid var(--accent2); border-radius:var(--radius-sm); padding:8px 12px; width:220px; font-size:0.78rem; font-style:normal; line-height:1.5; color:var(--text); pointer-events:none; opacity:0; visibility:hidden; transition:opacity 0.15s,visibility 0.15s; z-index:999; box-shadow:0 6px 20px rgba(0,0,0,0.6); white-space:normal; text-align:left; font-weight:normal; }
+  .vw:hover::after, .vw.tip-open::after { opacity:1; visibility:visible; }
+  .game-tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:1.5rem; }
+  .game-tile { border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem 1.25rem; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--bg2); }
+  .game-tile:hover { border-color:var(--accent); background:var(--bg3); transform:translateY(-3px); }
+  .game-tile .ti { font-size:2rem; margin-bottom:0.75rem; display:block; color:var(--accent2); }
+  .game-tile h3 { font-size:0.95rem; font-weight:normal; margin-bottom:0.4rem; }
+  .game-tile p { font-size:0.8rem; color:var(--text-muted); line-height:1.4; }
+  #game-area { margin-top:1rem; }
+  .match-layout { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:1rem; }
+  @media(max-width:540px){.match-layout{grid-template-columns:1fr}}
+  .match-col-label { font-family:'Courier New',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; text-align:center; }
+  .match-item { border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; font-size:0.83rem; line-height:1.4; margin-bottom:8px; transition:all 0.2s; background:var(--bg3); }
+  .word-item { cursor:grab; color:var(--accent2); border-left:3px solid var(--accent2); }
+  .word-item:active { cursor:grabbing; opacity:0.5; }
+  .def-item { cursor:default; color:var(--text-muted); min-height:56px; display:flex; align-items:center; }
+  .def-item.drag-over { border-color:var(--accent2); background:rgba(230,126,34,0.08); }
+  .match-item.correct { border-color:#27ae60; background:rgba(39,174,96,0.1); color:#2ecc71; }
+  .match-item.incorrect { border-color:var(--accent); animation:shake 0.4s; }
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .syn-layout { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:1rem; }
+  @media(max-width:500px){.syn-layout{grid-template-columns:1fr;gap:24px}}
+  .syn-col-label { font-family:'Courier New',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; text-align:center; }
+  .syn-item { border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 14px; font-size:0.875rem; margin-bottom:8px; cursor:pointer; text-align:center; transition:all 0.2s; background:var(--bg3); color:var(--text-muted); }
+  .syn-item:hover:not(.matched){border-color:var(--border-hover);color:var(--text)}
+  .syn-item.selected{border-color:#3498db;background:rgba(52,152,219,0.12);color:var(--text)}
+  .syn-item.matched{border-color:#27ae60;background:rgba(39,174,96,0.1);color:#2ecc71;cursor:default}
+  .syn-item.wrong{border-color:var(--accent);background:rgba(192,57,43,0.1);animation:shake 0.4s}
+  .quiz-q { border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; margin-bottom:1.25rem; background:var(--bg2); }
+  .quiz-q-text { font-size:0.95rem; margin-bottom:1rem; line-height:1.5; }
+  .quiz-q-text strong { font-family:'Courier New',monospace; font-size:0.8rem; color:var(--text-dim); display:block; margin-bottom:6px; letter-spacing:0.08em; text-transform:uppercase; font-weight:normal; }
+  .completion-header { text-align:center; padding:2rem 0; }
+  .completion-header h2 { font-size:2.2rem; font-weight:normal; margin-bottom:0.75rem; }
+  .completion-header p { color:var(--text-muted); font-style:italic; }
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin:2rem 0; }
+  .stat-box { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; text-align:center; }
+  .stat-val { font-size:2rem; font-family:'Courier New',monospace; color:var(--accent2); display:block; }
+  .stat-label { font-size:0.75rem; color:var(--text-dim); margin-top:4px; letter-spacing:0.05em; text-transform:uppercase; }
+  .takeaway { display:flex; align-items:flex-start; gap:12px; padding:1rem 1.25rem; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:10px; font-size:0.9rem; line-height:1.5; background:var(--bg2); }
+  .takeaway i { color:var(--accent2); margin-top:2px; flex-shrink:0; }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; border:1px solid var(--border-hover); border-radius:var(--radius-sm); padding:10px 20px; font-size:0.875rem; z-index:500; opacity:0; transition:all 0.25s; white-space:nowrap; }
+  #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .phase-label { font-family:'Courier New',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:2rem; }
+  .divider { height:1px; background:var(--border); margin:1.5rem 0; }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="score-pill"><div class="dot"></div><span id="score-val">0</span> pts</div>
+<div id="toast"></div>
+<div class="container">
+
+  <!-- PHASE 1: PRE-READING -->
+  <div class="phase active" id="ph-pre">
+    <div class="phase-label">Phase 1 of 4 — Pre-Reading</div>
+    <div class="lesson-header">
+      <div class="lesson-eyebrow">Business &amp; Crime · Spain</div>
+      <h1>Son of Mango Founder Steps Down</h1>
+      <p>Jonathan Andic steps aside as vice-chair after being named a suspect in the death of his father, Isak Andic.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Before you read — share your thoughts</div>
+      <div id="survey-container"></div>
+      <button class="btn" onclick="goReading()"><i class="fas fa-book-open"></i> Start Reading</button>
+    </div>
+  </div>
+
+  <!-- PHASE 2: READING -->
+  <div class="phase" id="ph-reading">
+    <div class="phase-label">Phase 2 of 4 — Reading</div>
+    <div class="lesson-header"><h1>Son of Mango Founder Steps Down</h1></div>
+    <p class="reading-intro">Tap any <span style="color:var(--accent2);border-bottom:1px dashed var(--accent2)">highlighted word</span> to see its meaning.</p>
+    <div id="reading-container"></div>
+    <button class="btn" onclick="goGames()" style="margin-top:2rem"><i class="fas fa-puzzle-piece"></i> Go to Vocabulary Games</button>
+  </div>
+
+  <!-- PHASE 3: GAMES -->
+  <div class="phase" id="ph-games">
+    <div class="phase-label">Phase 3 of 4 — Vocabulary Games</div>
+    <div class="lesson-header"><h1>Vocabulary Games</h1><p>Choose a game to practise the words from the text.</p></div>
+    <div class="game-tiles">
+      <div class="game-tile" onclick="launchDragMatch()"><span class="fas fa-grip-lines ti"></span><h3>Drag &amp; Match</h3><p>Drag terms to their correct definitions</p></div>
+      <div class="game-tile" onclick="launchSynonyms()"><span class="fas fa-link ti"></span><h3>Synonym Matcher</h3><p>Connect advanced words with simpler equivalents</p></div>
+      <div class="game-tile" onclick="launchQuickFire()"><span class="fas fa-bolt ti"></span><h3>Quick-Fire Quiz</h3><p>Choose the correct definition under pressure</p></div>
+    </div>
+    <div id="game-area"></div>
+    <button class="btn" onclick="goPost()" style="margin-top:2rem"><i class="fas fa-trophy"></i> Final Comprehension Test</button>
+  </div>
+
+  <!-- PHASE 4: QUIZ -->
+  <div class="phase" id="ph-post">
+    <div class="phase-label">Phase 4 of 4 — Comprehension Test</div>
+    <div class="lesson-header"><h1>Final Challenge</h1><p>Answer the questions based on what you read.</p></div>
+    <div id="quiz-container"></div>
+    <button class="btn" onclick="showCompletion()"><i class="fas fa-check"></i> Submit Answers</button>
+  </div>
+
+  <!-- PHASE 5: DONE -->
+  <div class="phase" id="ph-done">
+    <div class="completion-header"><h2>Well done!</h2><p>You've completed the reading activity.</p></div>
+    <div class="stats-row">
+      <div class="stat-box"><span class="stat-val" id="s-score">0</span><div class="stat-label">Total Score</div></div>
+      <div class="stat-box"><span class="stat-val" id="s-vocab">0</span><div class="stat-label">Words Explored</div></div>
+      <div class="stat-box"><span class="stat-val" id="s-quiz">0%</span><div class="stat-label">Quiz Accuracy</div></div>
+      <div class="stat-box"><span class="stat-val" id="s-time">0</span><div class="stat-label">Minutes Spent</div></div>
+    </div>
+    <div class="card"><div class="card-title">Key Takeaways</div><div id="takeaways-container"></div></div>
+    <button class="btn btn-ghost" onclick="restart()"><i class="fas fa-redo"></i> Start Again</button>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+const LESSON = {
+  eyebrow: "Business & Crime · Spain",
+  title:   "Son of Mango Founder Steps Down",
+  subtitle: "Jonathan Andic steps aside as vice-chair after being named a suspect in his father's death",
+
+  survey: [
+    {
+      id: "s1",
+      question: "If a company executive is named a suspect in a criminal investigation, do you think they should step down from their role immediately — even before any verdict?",
+      options: ["Yes, always — to protect the company", "Only if there is strong evidence against them", "No — they are innocent until proven guilty", "It depends on the nature of the allegation"]
+    },
+    {
+      id: "s2",
+      question: "Private messages (like WhatsApp) are increasingly used as evidence in court. Do you think this is a fair way to judge someone's character?",
+      options: ["Yes — messages reveal true feelings", "No — messages can be taken out of context", "Only if they are directly relevant to the crime", "I'm not sure"]
+    },
+    {
+      id: "s3",
+      question: "When a public narrative is constructed around a suspect before a trial, do you think it is possible for them to receive a fair hearing?",
+      options: ["Yes — courts are separate from public opinion", "No — media coverage creates bias", "It depends on the country and legal system", "Only if they stay silent publicly"]
+    }
+  ],
+
+  paragraphs: [
+    { text: "Jonathan Andic, son of the Mango founder Isak Andic, is stepping down <vw>temporarily</vw> as the fashion group's <vw>vice-chair</vw> after being named a <vw>suspect</vw> in the investigation into his father's death." },
+    { text: "In an open letter published on Tuesday, Andic strongly <vw>protested</vw> his <vw>innocence</vw>, saying the <vw>accusation</vw> bore \"no relation to reality\", but that \"dismantling it\" would take a long time." },
+    { text: "\"A public <vw>narrative</vw> has been constructed that is one-sided, taken out of context and <vw>distorted</vw>, and which has created a <vw>perception</vw> of guilt that bears no relation to reality. I know that dismantling it will require time, effort and intense dedication,\" Andic said." },
+    { text: "A Spanish court named Andic as a suspect last week. Isak Andic died in December 2024 after falling more than 100 metres from a cliff while the two were hiking in the mountains outside Barcelona. The judge's <vw>writ</vw> said there was evidence to suggest the death may not have been accidental and that Jonathan Andic \"played an active and <vw>premeditated</vw> role\"." },
+    { text: "Jonathan Andic was named executive vice-president of Mango's <vw>holding company</vw> in January 2025, about six weeks after his father's death. Mango's board issued a statement expressing \"full confidence that the legal proceedings will be resolved favourably and trust that this will happen as swiftly as possible\"." },
+    { text: "The judge's writ said the relationship between father and son had <vw>deteriorated</vw> owing to Jonathan Andic's obsession with money, and his WhatsApp messages had expressed \"feelings of hatred, <vw>resentment</vw> and thoughts of death, and blaming his father for his situation\"." },
+    { text: "Jonathan Andic, 45, disputed that. In his open letter, he said: \"We shared many happy, cherished and loving moments together. As is the case in so many families, we have also faced difficult and challenging times, which we have overcome through great effort, generosity and support.\"" }
+  ],
+
+  vocabulary: {
+    "temporarily":    "For a limited time only; not permanently",
+    "vice-chair":     "The second most senior person in an organisation, who supports or replaces the chair",
+    "suspect":        "A person formally believed to be responsible for a crime, but not yet found guilty",
+    "protested":      "Formally declared something to be untrue or unjust",
+    "innocence":      "The state of not having committed a crime or wrongdoing",
+    "accusation":     "A formal claim that someone has done something wrong or illegal",
+    "narrative":      "The version of events presented to the public; the story being told",
+    "distorted":      "Presented in a misleading or inaccurate way",
+    "perception":     "The impression or idea that people form about something",
+    "writ":           "An official written order issued by a court of law",
+    "premeditated":   "Planned in advance before the act was carried out",
+    "holding company":"A parent company that owns and controls shares in other companies",
+    "deteriorated":   "Became worse over time",
+    "resentment":     "A feeling of bitterness or anger towards someone who has treated you unfairly"
+  },
+
+  synonyms: {
+    "temporarily":  "briefly",
+    "suspect":      "accused",
+    "innocence":    "guiltlessness",
+    "narrative":    "story",
+    "distorted":    "twisted",
+    "perception":   "impression",
+    "writ":         "court order",
+    "premeditated": "planned",
+    "deteriorated": "worsened",
+    "resentment":   "bitterness"
+  },
+
+  quiz: [
+    {
+      q: "Why did Jonathan Andic step down as vice-chair of Mango?",
+      opts: [
+        "He was convicted of his father's murder",
+        "He was named a suspect in the investigation into his father's death",
+        "He resigned voluntarily for personal reasons",
+        "He was dismissed by the company board"
+      ],
+      a: 1
+    },
+    {
+      q: "How did Isak Andic die?",
+      opts: [
+        "In a traffic accident near Barcelona",
+        "After a long illness",
+        "After falling from a cliff while hiking",
+        "In a robbery at his home"
+      ],
+      a: 2
+    },
+    {
+      q: "When was Jonathan Andic appointed executive vice-president of Mango's holding company?",
+      opts: [
+        "Before his father's death, in late 2024",
+        "Immediately after his father's death in December 2024",
+        "About six weeks after his father's death, in January 2025",
+        "After being named a suspect by the court"
+      ],
+      a: 2
+    },
+    {
+      q: "What did the judge's writ say about Jonathan Andic's WhatsApp messages?",
+      opts: [
+        "They proved he had been planning the hiking trip carefully",
+        "They showed deep grief following his father's death",
+        "They contained expressions of love and admiration for his father",
+        "They expressed hatred, resentment and thoughts of death"
+      ],
+      a: 3
+    },
+    {
+      q: "How did Mango's board respond to Jonathan Andic stepping down?",
+      opts: [
+        "They called for a permanent resignation",
+        "They expressed full confidence the proceedings would be resolved favourably",
+        "They suspended all company operations pending the investigation",
+        "They refused to make any public comment"
+      ],
+      a: 1
+    },
+    {
+      q: "In his open letter, how did Jonathan Andic describe the public narrative about him?",
+      opts: [
+        "Fair but premature",
+        "One-sided, taken out of context and distorted",
+        "Based on solid evidence that he accepts",
+        "Largely accurate but missing key details"
+      ],
+      a: 1
+    }
+  ],
+
+  takeaways: [
+    { icon: "fas fa-gavel",      text: "Being named a suspect does not mean someone is guilty — the legal process must run its course before any conclusions are drawn." },
+    { icon: "fas fa-comment",    text: "Private digital communications, such as WhatsApp messages, are increasingly used as evidence in criminal investigations." },
+    { icon: "fas fa-users",      text: "Business succession in family-owned companies can create complex tensions between personal relationships and professional roles." },
+    { icon: "fas fa-balance-scale", text: "Public narratives formed before a trial can create a 'perception of guilt' that may be difficult to overturn, even with strong counter-evidence." }
+  ]
+};
+
+let score=0, vocabSeen=new Set(), startTime=Date.now();
+const phases=['ph-pre','ph-reading','ph-games','ph-post','ph-done'];
+
+/* ── BUILD PRE-READING ── */
+function buildPre() {
+  document.getElementById('survey-container').innerHTML = LESSON.survey.map(q => `
+    <div class="survey-q">
+      <div class="survey-q-text">${q.question}</div>
+      <div class="options-grid">${q.options.map((opt,i) => `
+        <label class="opt"><input type="radio" name="${q.id}" value="${i}">
+        <div class="radio-circle"></div><span class="opt-text">${opt}</span></label>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+/* ── BUILD READING ── */
+function buildReading() {
+  const container = document.getElementById('reading-container');
+  container.innerHTML = LESSON.paragraphs.map((p, i) => {
+    const html = p.text.replace(/<vw>(.*?)<\/vw>/g, (_, word) => {
+      const def = (LESSON.vocabulary[word] || '').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      return `<span class="vw" tabindex="0" data-word="${word.replace(/"/g,'&quot;')}" data-def="${def}">${word}</span>`;
+    });
+    return `<div class="para" id="para-${i}">${html}</div>`;
+  }).join('');
+
+  container.addEventListener('click', e => {
+    const span = e.target.closest('.vw');
+    if (!span) { document.querySelectorAll('.vw.tip-open').forEach(s => s.classList.remove('tip-open')); return; }
+    e.stopPropagation();
+    const isOpen = span.classList.contains('tip-open');
+    document.querySelectorAll('.vw.tip-open').forEach(s => s.classList.remove('tip-open'));
+    if (!isOpen) span.classList.add('tip-open');
+    const word = span.dataset.word;
+    if (word && !vocabSeen.has(word)) { vocabSeen.add(word); addScore(3); }
+  });
+  if (!window._vda) {
+    document.addEventListener('click', () => document.querySelectorAll('.vw.tip-open').forEach(s => s.classList.remove('tip-open')));
+    window._vda = true;
+  }
+}
+
+/* ── GAMES ── */
+function launchDragMatch() {
+  const vocab = Object.entries(LESSON.vocabulary).slice(0, 6);
+  const words = vocab.map(([w]) => w);
+  const defs  = shuffle(vocab.map(([,d]) => d));
+  let dragged = null, matched = 0;
+  document.getElementById('game-area').innerHTML = `
+    <div class="card">
+      <div class="card-title">Drag each term onto its correct definition</div>
+      <div class="match-layout">
+        <div>
+          <div class="match-col-label">Terms</div>
+          ${words.map(w => `<div class="match-item word-item" draggable="true" data-word="${w}">${w}</div>`).join('')}
+        </div>
+        <div>
+          <div class="match-col-label">Definitions</div>
+          ${defs.map(d => `<div class="match-item def-item" data-def="${d}">${d}</div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll('.word-item').forEach(el => {
+    el.addEventListener('dragstart', () => { dragged = el; el.style.opacity = '0.4'; });
+    el.addEventListener('dragend',   () => { el.style.opacity = '1'; });
+  });
+  document.querySelectorAll('.def-item').forEach(slot => {
+    slot.addEventListener('dragover',  e => { e.preventDefault(); slot.classList.add('drag-over'); });
+    slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+    slot.addEventListener('drop', e => {
+      e.preventDefault(); slot.classList.remove('drag-over');
+      if (!dragged || slot.classList.contains('correct')) return;
+      const ok = LESSON.vocabulary[dragged.dataset.word] === slot.dataset.def;
+      if (ok) {
+        slot.classList.add('correct'); dragged.classList.add('correct');
+        dragged.setAttribute('draggable','false'); addScore(20); matched++;
+        if (matched === words.length) toast('All matched! +' + (matched*20) + ' pts');
+      } else {
+        slot.classList.add('incorrect'); dragged.classList.add('incorrect');
+        setTimeout(() => { slot.classList.remove('incorrect'); dragged.classList.remove('incorrect'); }, 600);
+      }
+    });
+  });
+}
+
+function launchSynonyms() {
+  const pairs = Object.entries(LESSON.synonyms);
+  const words = pairs.map(([w]) => w);
+  const syns  = shuffle(pairs.map(([,s]) => s));
+  let sel = null, matched = 0;
+  document.getElementById('game-area').innerHTML = `
+    <div class="card">
+      <div class="card-title">Tap a word, then tap its simpler synonym</div>
+      <div class="syn-layout">
+        <div><div class="syn-col-label">Advanced words</div>${words.map(w => `<div class="syn-item" data-word="${w}" data-type="word">${w}</div>`).join('')}</div>
+        <div><div class="syn-col-label">Simple synonyms</div>${syns.map(s => `<div class="syn-item" data-word="${s}" data-type="syn">${s}</div>`).join('')}</div>
+      </div>
+    </div>`;
+
+  document.querySelectorAll('.syn-item').forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.classList.contains('matched')) return;
+      if (!sel) { el.classList.add('selected'); sel = el; return; }
+      if (sel === el) { el.classList.remove('selected'); sel = null; return; }
+      const a = sel, b = el;
+      const word = a.dataset.type === 'word' ? a.dataset.word : b.dataset.word;
+      const syn  = a.dataset.type === 'syn'  ? a.dataset.word : b.dataset.word;
+      const ok = LESSON.synonyms[word] === syn;
+      if (ok) {
+        a.classList.remove('selected'); a.classList.add('matched'); b.classList.add('matched');
+        addScore(15); matched++;
+        if (matched === pairs.length) { toast('All synonyms matched!'); addScore(30); }
+      } else {
+        a.classList.add('wrong'); b.classList.add('wrong');
+        setTimeout(() => { a.classList.remove('wrong','selected'); b.classList.remove('wrong'); }, 600);
+      }
+      sel = null;
+    });
+  });
+}
+
+function launchQuickFire() {
+  const items = shuffle(Object.entries(LESSON.vocabulary)).slice(0, 8);
+  let idx = 0, correct = 0;
+  function render() {
+    if (idx >= items.length) {
+      document.getElementById('game-area').innerHTML = `
+        <div class="card" style="text-align:center">
+          <div style="font-size:2rem;margin-bottom:1rem">${correct >= 6 ? '🎉' : '💪'}</div>
+          <p>You got <strong>${correct}/${items.length}</strong> correct</p>
+        </div>`;
+      addScore(correct * 8); return;
+    }
+    const [word, correctDef] = items[idx];
+    const wrongs = shuffle(Object.values(LESSON.vocabulary).filter(d => d !== correctDef)).slice(0, 3);
+    const opts   = shuffle([correctDef, ...wrongs]);
+    document.getElementById('game-area').innerHTML = `
+      <div class="card">
+        <div class="card-title">Question ${idx+1} of ${items.length}</div>
+        <p style="font-size:1rem;margin-bottom:1.25rem">What does <strong style="color:var(--accent2)">&ldquo;${word}&rdquo;</strong> mean?</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          ${opts.map(opt => `<button onclick="qfAns(this,${JSON.stringify(opt)},${JSON.stringify(correctDef)})"
+            style="text-align:left;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-size:0.875rem;color:var(--text-muted);transition:all 0.2s;font-family:Georgia,serif">${opt}</button>`).join('')}
+        </div>
+      </div>`;
+  }
+  window.qfAns = function(btn, chosen, correct_def) {
+    document.querySelectorAll('#game-area button').forEach(b => b.onclick = null);
+    if (chosen === correct_def) {
+      btn.style.background = 'rgba(39,174,96,0.15)'; btn.style.borderColor = '#27ae60'; btn.style.color = '#2ecc71'; correct++;
+    } else {
+      btn.style.background = 'rgba(192,57,43,0.15)'; btn.style.borderColor = 'var(--accent)'; btn.style.color = '#e74c3c';
+      document.querySelectorAll('#game-area button').forEach(b => {
+        if (b.textContent.trim() === correct_def) { b.style.background='rgba(39,174,96,0.12)'; b.style.borderColor='#27ae60'; b.style.color='#2ecc71'; }
+      });
+    }
+    idx++; setTimeout(render, 900);
+  };
+  render();
+}
+
+/* ── BUILD QUIZ ── */
+function buildQuiz() {
+  document.getElementById('quiz-container').innerHTML = LESSON.quiz.map((q, i) => `
+    <div class="quiz-q">
+      <div class="quiz-q-text"><strong>Question ${i+1}</strong>${q.q}</div>
+      <div class="options-grid">${q.opts.map((opt, j) => `
+        <label class="opt"><input type="radio" name="qq${i}" value="${j}">
+        <div class="radio-circle"></div><span class="opt-text">${opt}</span></label>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+/* ── COMPLETION ── */
+function showCompletion() {
+  let correct = 0;
+  LESSON.quiz.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="qq${i}"]:checked`);
+    if (sel && parseInt(sel.value) === q.a) correct++;
+  });
+  addScore(correct * 15);
+  const mins = Math.max(1, Math.round((Date.now() - startTime) / 60000));
+  document.getElementById('s-score').textContent = score;
+  document.getElementById('s-vocab').textContent = vocabSeen.size;
+  document.getElementById('s-quiz').textContent  = Math.round((correct / Math.max(1, LESSON.quiz.length)) * 100) + '%';
+  document.getElementById('s-time').textContent  = mins;
+  document.getElementById('takeaways-container').innerHTML = LESSON.takeaways.map(t =>
+    `<div class="takeaway"><i class="${t.icon}"></i><span>${t.text}</span></div>`).join('');
+  goPhase(4);
+}
+
+/* ── NAVIGATION ── */
+function goReading() { addScore(document.querySelectorAll('#ph-pre input:checked').length * 5); goPhase(1); }
+function goGames()   { goPhase(2); }
+function goPost()    { goPhase(3); }
+function goPhase(n)  {
+  phases.forEach((id, i) => document.getElementById(id).classList.toggle('active', i === n));
+  document.getElementById('progress-bar').style.width = ((n+1) / phases.length * 100) + '%';
+  window.scrollTo(0, 0);
+}
+function addScore(n) { score += n; document.getElementById('score-val').textContent = score; }
+function toast(msg)  { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function restart() { score=0; vocabSeen=new Set(); startTime=Date.now(); document.getElementById('score-val').textContent='0'; buildPre(); buildReading(); buildQuiz(); goPhase(0); }
+
+buildPre();
+buildReading();
+buildQuiz();
+</script>
+</body>
+</html>
