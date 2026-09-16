@@ -12,7 +12,7 @@
 <style>
 *,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
 :root{
-  --ground:#F2ECDD; --band:#FAF7F2; --ink:#17171A; --dim:#5C6366; --faint:#8A9093;
+  --ground:#F0EEE9; --band:#FAF7F2; --ink:#17171A; --dim:#5C6366; --faint:#8A9093;
   --rule:#C2956E; --caramel:#B0865C; --tick:#6B3FA0; --cross:#E8632A; --hot:#B44A22;
   --poster:#F5F3EE; --poster-ink:#14110E; --poster-soft:rgba(20,17,14,.68); --poster-faint:rgba(20,17,14,.5); --poster-rule:rgba(20,17,14,.16);
   --shade:40,50,54; --header-h:132px; --bar-h:44px;
@@ -29,7 +29,7 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 /* ══ HEADER ══ */
 .header{
   position:fixed; top:0; left:0; right:0; z-index:20; height:var(--header-h);
-  background:var(--band); border-bottom:1px solid var(--rule);
+  background:#F6F4EF; border-bottom:1px solid var(--rule);
   display:flex; flex-direction:column; justify-content:center; gap:.55rem; padding:.75rem 1.2rem .6rem;
 }
 .htop{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:.5rem; }
@@ -231,7 +231,7 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 <header class="header">
   <div class="htop">
     <button class="back" onclick="restart()"><i class="fas fa-rotate-left"></i> Restart</button>
-    <div class="title"><span class="eyebrow">Business &amp; Crime · Spain</span><b>Son of Mango Founder Steps Down</b></div>
+    <div class="title"><span class="eyebrow" id="eyebrowLabel"></span><b id="titleLabel"></b></div>
     <div class="score-pill"><div class="dot"></div><span id="score-val">0</span> pts</div>
   </div>
   <nav class="tier1" id="tier1"></nav>
@@ -267,7 +267,18 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 <div class="word-tip" id="wordTip"></div>
 
 <script>
+/* ═══════════════════════════════════════════════════════════════════
+   BLUEPRINT: everything the learner sees — title, category tag,
+   survey questions, reading paragraphs + glossary, quiz, vocabulary
+   games, and takeaways — lives in this one LESSON object. To turn
+   this into a lesson for a different article, replace the values
+   below; no other code needs to change.
+   ═══════════════════════════════════════════════════════════════════ */
 const LESSON = {
+  meta: {
+    eyebrow: "Business & Crime · Spain",
+    title: "Son of Mango Founder Steps Down"
+  },
   survey: [
     { id:"s1", question:"If a company executive is named a suspect in a criminal investigation, do you think they should step down from their role immediately — even before any verdict?",
       options:["Yes, always — to protect the company","Only if there is strong evidence against them","No — they are innocent until proven guilty","It depends on the nature of the allegation"] },
@@ -844,6 +855,10 @@ function restart(){
   document.getElementById('ph-done').classList.remove('show');
   renderTier1(); renderTier2(); renderCard();
 }
+
+document.title = LESSON.meta.title;
+document.getElementById('eyebrowLabel').textContent = LESSON.meta.eyebrow;
+document.getElementById('titleLabel').textContent = LESSON.meta.title;
 
 sub = TIER2[tier][0].id;
 renderTier1(); renderTier2(); renderCard();
