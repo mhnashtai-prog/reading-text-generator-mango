@@ -12,9 +12,9 @@
 <style>
 *,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
 :root{
-  --ground:#EBE8E1; --band:#FAF7F2; --ink:#17171A; --dim:#5C6366; --faint:#8A9093;
+  --ground:#F2ECDD; --band:#FAF7F2; --ink:#17171A; --dim:#5C6366; --faint:#8A9093;
   --rule:#C2956E; --caramel:#B0865C; --tick:#6B3FA0; --cross:#E8632A; --hot:#B44A22;
-  --poster:#ECE9E3; --poster-ink:#14110E; --poster-soft:rgba(20,17,14,.68); --poster-faint:rgba(20,17,14,.5); --poster-rule:rgba(20,17,14,.16);
+  --poster:#F5F3EE; --poster-ink:#14110E; --poster-soft:rgba(20,17,14,.68); --poster-faint:rgba(20,17,14,.5); --poster-rule:rgba(20,17,14,.16);
   --shade:40,50,54; --header-h:132px; --bar-h:44px;
   --spring:cubic-bezier(.2,1.4,.4,1);
 }
@@ -43,7 +43,7 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 .title .eyebrow{ font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-bottom:.2rem; }
 .title b{ font-family:'Space Grotesk',sans-serif; font-size:1rem; font-weight:700; letter-spacing:.01em; color:var(--ink); max-width:520px; }
 .score-pill{
-  justify-self:end; background:var(--ground); border:1px solid var(--rule); border-radius:99px;
+  justify-self:end; background:#E8E6E1; border:none; border-radius:99px;
   padding:.35rem .85rem; font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.06em;
   color:var(--dim); white-space:nowrap; display:flex; align-items:center; gap:.4rem;
 }
@@ -63,16 +63,16 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 .tier2::-webkit-scrollbar{ display:none; }
 .t2-chip{
   flex:0 0 auto; font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.05em;
-  padding:.34rem .75rem; border-radius:99px; border:1px solid var(--rule); color:var(--dim);
-  background:transparent; white-space:nowrap; transition:all .15s;
+  padding:.34rem .75rem; border-radius:99px; border:none; color:var(--dim);
+  background:#E8E6E1; white-space:nowrap; transition:all .15s;
 }
-.t2-chip:hover{ border-color:var(--hot); color:var(--ink); }
-.t2-chip.active{ background:var(--hot); border-color:var(--hot); color:#FFF7F3; }
+.t2-chip:hover{ background:#DBD8D1; color:var(--ink); }
+.t2-chip.active{ background:#43413C; color:#FAF7F2; }
 
 /* ══ STAGE / CARD ══ */
-.stage{ display:flex; justify-content:center; padding:1.6rem 1rem; min-height:calc(100vh - var(--header-h) - var(--bar-h) - 28px); align-items:flex-start; }
+.stage{ display:flex; justify-content:center; padding:1rem 1rem; min-height:calc(100vh - var(--header-h) - var(--bar-h) - 28px); align-items:flex-start; }
 .card{
-  width:min(680px,94vw); background:var(--poster); border-radius:0; padding:clamp(1.5rem,4vw,2.4rem);
+  width:min(680px,94vw); background:var(--poster); border-radius:0; padding:clamp(1.1rem,2.6vw,1.6rem);
   box-shadow:0 6px 18px rgba(0,0,0,.14); animation:cardIn .35s var(--spring) both;
 }
 @keyframes cardIn{ from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)} }
@@ -95,12 +95,13 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 .pbtn:disabled{ opacity:.3; cursor:not-allowed; }
 
 /* capsule option / pile buttons — the "egg" pattern */
-.optlist{ display:flex; flex-direction:column; gap:.55rem; margin-top:.3rem; }
+.optlist{ display:flex; flex-direction:column; align-items:flex-start; gap:.4rem; margin-top:.3rem; }
 .opt2{
-  text-align:left; padding:.8rem 1rem; border-radius:14px; background:#F2EADA; border:1px solid transparent;
-  font-size:.88rem; color:var(--poster-soft); transition:all .15s;
+  display:inline-block; width:auto; max-width:100%;
+  text-align:left; padding:.4rem .8rem; border-radius:10px; background:rgba(20,17,14,.045); border:1px solid transparent;
+  font-size:.85rem; color:var(--poster-soft); transition:all .15s;
 }
-.opt2:hover{ background:#E9DFC5; }
+.opt2:hover{ background:rgba(20,17,14,.08); }
 .opt2.picked{ background:var(--hot); color:#FFF7F3; }
 
 .piles{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.2rem; }
@@ -128,15 +129,15 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 .feedback-line.bad{ background:rgba(232,99,42,.12); color:var(--cross); border:1px solid var(--cross); }
 
 .reading-para{ font-size:1rem; line-height:1.85; color:var(--poster-soft); }
-.vw{ background:rgba(176,134,92,.18); color:var(--caramel); border-bottom:1px dashed var(--caramel); padding:1px 3px; border-radius:3px; cursor:pointer; position:relative; }
+.vw{ background:rgba(176,134,92,.18); color:var(--caramel); border-bottom:1px dashed var(--caramel); padding:1px 3px; border-radius:3px; cursor:pointer; }
 .vw:hover{ background:rgba(176,134,92,.3); }
-.vw::after{
-  content:attr(data-def); position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
-  background:var(--ink); color:#f0ede8; border:1px solid var(--caramel); border-radius:8px; padding:8px 12px; width:220px;
-  font-size:.76rem; font-style:normal; line-height:1.5; pointer-events:none; opacity:0; visibility:hidden;
-  transition:opacity .15s,visibility .15s; z-index:99; box-shadow:0 6px 20px rgba(0,0,0,.4); text-align:left;
+.word-tip{
+  position:fixed; z-index:99; background:var(--ink); color:#f0ede8; border:1px solid var(--caramel);
+  border-radius:8px; padding:8px 12px; max-width:min(240px, calc(100vw - 24px));
+  font-size:.76rem; line-height:1.5; pointer-events:none; opacity:0; visibility:hidden;
+  transition:opacity .15s,visibility .15s; box-shadow:0 6px 20px rgba(0,0,0,.4);
 }
-.vw:hover::after, .vw.tip-open::after{ opacity:1; visibility:visible; }
+.word-tip.show{ opacity:1; visibility:visible; }
 
 .glossary-row{ display:flex; justify-content:space-between; gap:1rem; padding:.75rem 0; border-bottom:1px solid var(--poster-rule); font-size:.86rem; }
 .glossary-row b{ font-family:'Space Grotesk',sans-serif; color:var(--caramel); font-weight:700; flex:0 0 34%; }
@@ -146,12 +147,11 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 .match-layout,.syn-layout{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:1rem; }
 @media(max-width:520px){.match-layout,.syn-layout{grid-template-columns:1fr}}
 .col-label{ font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--poster-faint); margin-bottom:8px; text-align:center; }
-.mitem{ border-radius:12px; padding:.6rem .8rem; font-size:.82rem; line-height:1.4; margin-bottom:.5rem; background:#F2EADA; transition:all .2s; }
-.wordm{ cursor:grab; color:var(--caramel); font-weight:600; border-left:3px solid var(--caramel); }
-.wordm:active{ cursor:grabbing; opacity:.5; }
-.defm{ cursor:default; color:var(--poster-soft); min-height:52px; display:flex; align-items:center; }
-.defm.drag-over{ border:1px solid var(--caramel); }
-.mitem.correct{ background:rgba(107,63,160,.14); color:var(--tick); }
+.mitem{ border-radius:12px; padding:.6rem .8rem; font-size:.82rem; line-height:1.4; margin-bottom:.5rem; background:#F2EADA; transition:all .2s; cursor:pointer; }
+.wordm{ color:var(--caramel); font-weight:600; border-left:3px solid var(--caramel); }
+.defm{ color:var(--poster-soft); min-height:52px; display:flex; align-items:center; }
+.mitem.selected{ background:var(--hot); color:#FFF7F3; }
+.mitem.correct{ background:rgba(107,63,160,.14); color:var(--tick); cursor:default; }
 .mitem.incorrect{ background:rgba(232,99,42,.14); animation:shake .4s; }
 .synitem{ border-radius:99px; padding:.6rem .9rem; font-size:.82rem; margin-bottom:.5rem; cursor:pointer; text-align:center; transition:all .15s; background:#F2EADA; color:var(--poster-soft); }
 .synitem.selected{ background:var(--hot); color:#fff; }
@@ -264,6 +264,7 @@ button{ font:inherit; border:none; background:none; cursor:pointer; color:inheri
 </div>
 
 <div id="toast" style="position:fixed;bottom:60px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#f0ede8;border-radius:10px;padding:10px 20px;font-size:.85rem;z-index:80;opacity:0;transition:all .25s;white-space:nowrap;"></div>
+<div class="word-tip" id="wordTip"></div>
 
 <script>
 const LESSON = {
@@ -379,11 +380,13 @@ function renderTier1(){
   el.querySelectorAll('.t1-btn').forEach(b => b.addEventListener('click', () => {
     tier = b.dataset.t; sub = TIER2[tier][0].id; renderTier1(); renderTier2(); renderCard();
   }));
+  syncHeaderHeight();
 }
 function renderTier2(){
   const el = document.getElementById('tier2');
   el.innerHTML = TIER2[tier].map(c => `<button class="t2-chip ${c.id===sub?'active':''}" data-s="${c.id}">${c.label}</button>`).join('');
   el.querySelectorAll('.t2-chip').forEach(b => b.addEventListener('click', () => { sub=b.dataset.s; renderTier2(); renderCard(); }));
+  syncHeaderHeight();
 }
 function paintBar(){
   document.getElementById('barLeft').textContent = score + ' pts';
@@ -391,17 +394,52 @@ function paintBar(){
   document.getElementById('barFill').style.width = Math.min(100, Math.round(score/TARGET_POINTS*100)) + '%';
 }
 
+/* ── keep the fixed header's reserved space in sync with its real height,
+   so the card/stage below never overlaps it (e.g. when chips wrap to 2 lines) ── */
+function syncHeaderHeight(){
+  const header = document.querySelector('.header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+}
+
 function setKick(label){ document.getElementById('kickLabel').textContent = label; }
 function content(){ return document.getElementById('card-content'); }
 
+let activeTipWord = null;
+function showWordTip(span){
+  const tip = document.getElementById('wordTip');
+  tip.textContent = span.dataset.def || '';
+  activeTipWord = span;
+  tip.style.visibility = 'hidden';
+  tip.classList.add('show');
+  const rect = span.getBoundingClientRect();
+  const tipRect = tip.getBoundingClientRect();
+  const headerH = document.querySelector('.header').offsetHeight;
+  let left = rect.left + rect.width/2 - tipRect.width/2;
+  left = Math.max(8, Math.min(left, window.innerWidth - tipRect.width - 8));
+  let top = rect.top - tipRect.height - 8;
+  if (top < headerH + 8) top = rect.bottom + 8;
+  top = Math.min(top, window.innerHeight - tipRect.height - 8);
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+  tip.style.visibility = '';
+}
+function hideWordTip(){
+  document.getElementById('wordTip').classList.remove('show');
+  activeTipWord = null;
+}
+document.addEventListener('click', () => hideWordTip());
+window.addEventListener('scroll', () => hideWordTip(), true);
+
 function renderCard(){
+  paintBar();
   if (tier==='before') return buildOpinions();
   if (tier==='while') return sub==='read' ? buildRead() : buildWordBank();
   const map = { dragmatch:launchDragMatch, synonyms:launchSynonyms, quickfire:launchQuickFire,
     reorder:launchSentenceReorder, paragraph:launchParagraphReorder, cloze:launchCloze,
     truefalse:launchTrueFalse, factopinion:launchFactOpinion, agreedisagree:launchAgreeDisagree, quiz:launchQuiz };
   (map[sub] || (()=>{}))();
-  paintBar();
+  syncHeaderHeight();
 }
 
 /* ══════════ BEFORE: paginated opinion cards ══════════ */
@@ -447,10 +485,10 @@ function buildRead(){
     </div>`;
   content().querySelectorAll('.vw').forEach(span => span.addEventListener('click', e => {
     e.stopPropagation();
-    document.querySelectorAll('.vw.tip-open').forEach(s=>{ if(s!==span) s.classList.remove('tip-open'); });
-    span.classList.toggle('tip-open');
     const word = span.dataset.word;
     if (word && !vocabSeen.has(word)) { vocabSeen.add(word); addScore(3); }
+    if (activeTipWord === span) { hideWordTip(); return; }
+    showWordTip(span);
   }));
   document.getElementById('prevP').addEventListener('click', () => { readIdx--; buildRead(); });
   document.getElementById('nextP').addEventListener('click', () => {
@@ -470,25 +508,44 @@ function launchDragMatch(){
   setKick('Practice · Match Terms to Definitions');
   const vocab = Object.entries(LESSON.vocabulary).slice(0,6);
   const words = vocab.map(([w])=>w), defs = shuffle(vocab.map(([,d])=>d));
-  let dragged=null, matched=0;
-  content().innerHTML = `<div class="match-layout">
-    <div><div class="col-label">Terms</div>${words.map(w=>`<div class="mitem wordm" draggable="true" data-word="${esc(w)}">${esc(w)}</div>`).join('')}</div>
+  let selWord=null, selDef=null, matched=0;
+  content().innerHTML = `
+    <p style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--poster-faint);margin-bottom:.9rem">Tap a term, then tap its matching definition.</p>
+    <div class="match-layout">
+    <div><div class="col-label">Terms</div>${words.map(w=>`<div class="mitem wordm" data-word="${esc(w)}">${esc(w)}</div>`).join('')}</div>
     <div><div class="col-label">Definitions</div>${defs.map(d=>`<div class="mitem defm" data-def="${esc(d)}">${esc(d)}</div>`).join('')}</div>
   </div>`;
-  content().querySelectorAll('.wordm').forEach(el=>{
-    el.addEventListener('dragstart',()=>{ dragged=el; el.style.opacity='.4'; });
-    el.addEventListener('dragend',()=>{ el.style.opacity='1'; });
+  const wordEls = content().querySelectorAll('.wordm');
+  const defEls = content().querySelectorAll('.defm');
+  function tryMatch(){
+    if (!selWord || !selDef) return;
+    const ok = LESSON.vocabulary[selWord.dataset.word] === selDef.dataset.def;
+    if (ok){
+      selWord.classList.remove('selected'); selDef.classList.remove('selected');
+      selWord.classList.add('correct'); selDef.classList.add('correct');
+      addScore(20); matched++;
+      if (matched===words.length) toast('All matched! +'+(matched*20)+' pts');
+    } else {
+      selWord.classList.add('incorrect'); selDef.classList.add('incorrect');
+      const w=selWord, d=selDef;
+      setTimeout(()=>{ w.classList.remove('incorrect','selected'); d.classList.remove('incorrect','selected'); },600);
+    }
+    selWord=null; selDef=null;
+  }
+  wordEls.forEach(el=>{
+    el.addEventListener('click',()=>{
+      if (el.classList.contains('correct')) return;
+      wordEls.forEach(w=>w.classList.remove('selected'));
+      el.classList.add('selected'); selWord=el;
+      tryMatch();
+    });
   });
-  content().querySelectorAll('.defm').forEach(slot=>{
-    slot.addEventListener('dragover',e=>{ e.preventDefault(); slot.classList.add('drag-over'); });
-    slot.addEventListener('dragleave',()=>slot.classList.remove('drag-over'));
-    slot.addEventListener('drop',e=>{
-      e.preventDefault(); slot.classList.remove('drag-over');
-      if (!dragged || slot.classList.contains('correct')) return;
-      const ok = LESSON.vocabulary[dragged.dataset.word]===slot.dataset.def;
-      if (ok){ slot.classList.add('correct'); dragged.classList.add('correct'); dragged.setAttribute('draggable','false'); addScore(20); matched++;
-        if (matched===words.length) toast('All matched! +'+(matched*20)+' pts'); }
-      else { slot.classList.add('incorrect'); dragged.classList.add('incorrect'); setTimeout(()=>{ slot.classList.remove('incorrect'); dragged.classList.remove('incorrect'); },600); }
+  defEls.forEach(el=>{
+    el.addEventListener('click',()=>{
+      if (el.classList.contains('correct')) return;
+      defEls.forEach(d=>d.classList.remove('selected'));
+      el.classList.add('selected'); selDef=el;
+      tryMatch();
     });
   });
 }
@@ -790,6 +847,10 @@ function restart(){
 
 sub = TIER2[tier][0].id;
 renderTier1(); renderTier2(); renderCard();
+window.addEventListener('resize', syncHeaderHeight);
+if (window.ResizeObserver) {
+  new ResizeObserver(syncHeaderHeight).observe(document.querySelector('.header'));
+}
 </script>
 </body>
 </html>
